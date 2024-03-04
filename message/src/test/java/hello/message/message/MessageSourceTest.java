@@ -30,4 +30,9 @@ public class MessageSourceTest {
         String result = messageSource.getMessage("no_code", null, "기본 메시지", null);
         assertThat(result).isEqualTo("기본 메시지");
     }
+
+    @Test
+    void argumentMessage() {
+        String result = messageSource.getMessage("hello.name", new Object[]{"Spring"}, null);
+        assertThat(result).isEqualTo("안녕 Spring"); }
 }
