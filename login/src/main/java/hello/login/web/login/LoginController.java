@@ -26,16 +26,18 @@ public class LoginController {
     private final SessionManager sessionManager;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
+    public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm) {
         return "login/loginForm";
     }
 
     public String login(@Valid @ModelAttribute LoginForm form,
                         BindingResult bindingResult,
                         HttpServletResponse response) {
+
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
         }
+
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
         log.info("login? {}", loginMember);
 
@@ -75,8 +77,9 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginV3(@Valid @ModelAttribute LoginForm form, BindingResult
-            bindingResult, HttpServletRequest request) {
+    public String loginV3(@Valid @ModelAttribute LoginForm form,
+                          BindingResult bindingResult,
+                          HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
