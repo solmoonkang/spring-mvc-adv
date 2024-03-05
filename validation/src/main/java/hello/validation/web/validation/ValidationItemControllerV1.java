@@ -1,4 +1,4 @@
-package hello.validation.domain.item.basic;
+package hello.validation.web.validation;
 
 import hello.validation.domain.item.Item;
 import hello.validation.domain.item.ItemRepository;
