@@ -3,6 +3,7 @@ package hello.validation.web.validation;
 import hello.validation.domain.item.Item;
 import hello.validation.domain.item.ItemRepository;
 import hello.validation.domain.item.SaveCheck;
+import hello.validation.domain.item.UpdateCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -66,7 +67,7 @@ public class ValidationItemControllerV3 {
     }
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId,
-                       @Validated @ModelAttribute Item item,
+                       @Validated(UpdateCheck.class) @ModelAttribute Item item,
                        BindingResult bindingResult) {
         //특정 필드 예외가 아닌 전체 예외
         if (item.getPrice() != null && item.getQuantity() != null) {
