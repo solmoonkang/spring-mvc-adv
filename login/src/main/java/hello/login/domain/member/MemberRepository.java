@@ -19,4 +19,8 @@ public class MemberRepository {
         store.put(member.getId(), member);
         return member;
     }
+
+    public Member findById(Long id) {
+        return store.get(id);
+    }
 }
