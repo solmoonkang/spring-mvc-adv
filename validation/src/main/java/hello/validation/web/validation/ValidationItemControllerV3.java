@@ -2,6 +2,7 @@ package hello.validation.web.validation;
 
 import hello.validation.domain.item.Item;
 import hello.validation.domain.item.ItemRepository;
+import hello.validation.domain.item.SaveCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -42,27 +43,9 @@ public class ValidationItemControllerV3 {
     }
 
     @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            return "validation/v3/addForm";
-        }
-
-        //성공 로직
-        Item savedItem = itemRepository.save(item); redirectAttributes.addAttribute("itemId", savedItem.getId()); redirectAttributes.addAttribute("status", true);
-        return "redirect:/validation/v3/items/{itemId}";
-    }
-
-    public String addItemScriptAssert(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        //특정 필드 예외가 아닌 전체 예외
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getQuantity();
-            if (resultPrice < 10000) {
-                bindingResult.reject("totalPriceMin", new Object[]{10000,
-                        resultPrice}, null);
-            }
-        }
-
+    public String addItem(@Validated(SaveCheck.class) @ModelAttribute Item item,
+                          BindingResult bindingResult,
+                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "validation/v3/addForm";
@@ -82,7 +65,9 @@ public class ValidationItemControllerV3 {
         return "validation/v3/editForm";
     }
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult) {
+    public String edit(@PathVariable Long itemId,
+                       @Validated @ModelAttribute Item item,
+                       BindingResult bindingResult) {
         //특정 필드 예외가 아닌 전체 예외
         if (item.getPrice() != null && item.getQuantity() != null) {
             int resultPrice = item.getPrice() * item.getQuantity();
