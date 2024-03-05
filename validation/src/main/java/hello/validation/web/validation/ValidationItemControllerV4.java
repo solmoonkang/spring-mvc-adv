@@ -46,7 +46,7 @@ public class ValidationItemControllerV4 {
     }
 
     @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute("iem") ItemSaveForm itemSaveForm,
+    public String addItem(@Validated @ModelAttribute("itemSaveForm") ItemSaveForm itemSaveForm,
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes) {
         // 특정 필드 예외가 아닌 전체 예외
@@ -82,7 +82,7 @@ public class ValidationItemControllerV4 {
     }
 
     public String edit(@PathVariable Long itemId,
-                       @Validated @ModelAttribute("item") ItemUpdateForm itemUpdateForm,
+                       @Validated @ModelAttribute("itemUpdateForm") ItemUpdateForm itemUpdateForm,
                        BindingResult bindingResult) {
         //특정 필드 예외가 아닌 전체 예외
         if (itemUpdateForm.getPrice() != null && itemUpdateForm.getQuantity() != null) {
