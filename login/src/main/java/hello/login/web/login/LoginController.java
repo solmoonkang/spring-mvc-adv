@@ -4,6 +4,7 @@ import hello.login.domain.login.LoginService;
 import hello.login.domain.member.Member;
 import hello.login.web.session.SessionManager;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -72,9 +73,14 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
     public String logout(HttpServletResponse response) {
         expireCookie(response, "memberId");
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logoutV2(HttpServletRequest request) {
+        sessionManager.expire(request);
         return "redirect:/";
     }
 
